@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  pythonsocketio:
+    container_name: clintochatserver
+    build:
+      context: .
+    # command: "gunicorn -b 0.0.0.0:80 --reload --threads 10 app:app"
+    command: uvicorn async_app:app --host 0.0.0.0 --port 80 --reload
+    ports:
+      - "9005:80"
+    volumes:
+      - .:/app

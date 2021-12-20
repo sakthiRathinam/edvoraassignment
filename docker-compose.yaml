@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+  postgresdb:
+    container_name: postgres-edvora
+    image: postgres
+    restart: on-failure
+#    restart: always
+    env_file:
+      - ./mainapp/env/db.env
+    ports:
+      - "1440:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    networks:
+      - internal
+  mainapp:
+    container_name: edvora
+    build:
+      context: ./mainapp
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.app.loadbalancer.server.port=80
+      - traefik.http.routers.app-http.entrypoints=http
+      - traefik.http.routers.app-http.rule=Host(`uportal.in`)
+      - traefik.docker.network=traefik-public
+    env_file:
+      - ./mainapp/env/fastapi.env
+    volumes:
+      - ./mainapp:/app
+    networks:
+      - internal
+      - traefik-public
+    restart: always
+    depends_on:
+      - postgresdb
+      - pgadminedvora
+      - chatserver
+  chatserver:
+    container_name: edvorachat
+    build:
+      context: ./socketserver
+    command: uvicorn async_app:app --host 0.0.0.0 --port 80 --reload
+    volumes:
+      - ./socketserver:/app
+    ports:
+      - "8010:80"
+    networks:
+      - internal
+    restart: always
+  pgadminedvora:
+    container_name: pgadminedvora
+    image: dpage/pgadmin4
+    env_file:
+      - ./mainapp/env/pgadmin.env
+    ports:
+      - "5061:80"
+    networks:
+      - internal
+    depends_on:
+      - postgresdb
+
+networks:
+  web:
+    external: true
+  internal:
+    external: true
+  traefik-public:
+    external: true

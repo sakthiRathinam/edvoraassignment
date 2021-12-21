@@ -94,8 +94,7 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 ## How to Use
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+In the above mention Documentation url click that register and login and go the url uportal.in/connectBroadcast you are now connected to the broadcast and ready to send messages in that ui if you logged out you are session will be gone and again u need to login and navigate to the broadcast to send and receive messages
 
 ### Prerequisites
 

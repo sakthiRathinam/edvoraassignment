@@ -1,0 +1,33 @@
+
+
+name: CI
+
+on:
+  push:
+    tags: 
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: DockerBuild
+        env:
+          DOCKER_HUB: ${{ secrets.DOCKER_HUB }}
+          DOCKER_ACCESS: ${{ secrets.DOCKER_ACCESS }}
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          ls -l
+          echo 'Docker Login'
+          docker login -u $DOCKER_HUB -p $DOCKER_ACCESS
+          echo 'Running build'
+          echo $RELEASE_VERSION
+          docker build ./mainapp -t sakthiratnam/edvoraassignment:latest
+          echo 'pushing image mainapp image'
+          docker push sakthiratnam/edvoraassignment:latest
+          docker build ./socketserver -t sakthiratnam/edvorachatserver:latest
+          echo 'pushing chatserver image'
+          docker push sakthiratnam/edvorachatserver:latest
+          echo 'done pushing two images'

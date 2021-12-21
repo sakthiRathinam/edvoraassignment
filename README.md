@@ -79,8 +79,9 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [Postgres](https://postgresql.org/)['database used for this project]
 * [Docker](https://docker.org/)["production ready container always easy switch to any machines"]
 * [Github Actions](https://actions.dev/)['added action that will deploy the app to cloud for every new release']
-* [Documentation Url](http://uportal.in/docs)['uportal.in or ip:8000/docs/']
+* [Documentation Live Url](http://uportal.in/docs)['uportal.in or ip:8000/docs/']
 * [Reverse-Proxy](https://traefik.io/)['used for reverse-proxy if you want to enable https uncommand all the https middleware it will work']
+* [UBUNTU AWS SERVER LIVE URL](http://uportal.in/docs)['used ec2 and traefik to make this app live and you can enable the https by just remove the commented lines in docker-compose-traefik and docker-compose.yml files']
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
